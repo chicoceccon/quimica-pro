@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Química Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100% ); min-height: 100vh; }
+        .card { border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: none; margin-bottom: 2rem; }
+        .navbar { background: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-flask text-primary"></i> <strong>Química Pro</strong></a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3"><i class="fas fa-user"></i> {{ user_name }}</span>
+                <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3><i class="fas fa-magic"></i> Resolver Questão de Química</h3>
+            </div>
+            <div class="card-body">
+                <form id="questaoForm">
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-edit"></i> Digite sua questão:</label>
+                        <textarea class="form-control" id="questaoTexto" name="questao" rows="4"></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic"></i> Resolver com IA
+                        </button>
+                    </div>
+                </form>
+                <div id="resultado"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#questaoForm' ).submit(function(e) {
+            e.preventDefault();
+            const questao = $('#questaoTexto').val().trim();
+            if (!questao) { alert('Digite uma questão.'); return; }
+            
+            $.ajax({
+                url: '/resolver',
+                type: 'POST',
+                data: {questao: questao},
+                success: function(response) {
+                    if (response.success) {
+                        $('#resultado').html(response.resolucao).show();
+                    } else {
+                        $('#resultado').html('<div class="alert alert-danger">' + response.error + '</div>').show();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
