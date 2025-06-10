@@ -1,0 +1,95 @@
+templates/login.html 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Química Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100% );
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 3rem;
+            max-width: 400px;
+            width: 100%;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .logo h1 {
+            color: #2563eb;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+        }
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo">
+            <h1><i class="fas fa-flask"></i> Química Pro</h1>
+            <p class="text-muted">Resolva exercícios com IA</p>
+        </div>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label"><i class="fas fa-lock"></i> Senha</label>
+                <input type="password" class="form-control" name="senha" required>
+            </div>
+            
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-3">
+            <p>Não tem conta? <a href="{{ url_for('cadastro') }}" class="text-decoration-none">Cadastre-se</a></p>
+        </div>
+        
+        <div class="text-center mt-4">
+            <small class="text-muted">
+                <strong>Teste:</strong> admin@quimicapro.net.br / admin123
+            </small>
+        </div>
+    </div>
+</body>
+</html>
